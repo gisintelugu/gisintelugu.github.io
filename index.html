@@ -153,7 +153,7 @@
             color: var(--text-on-dark-muted);
         }
 
-        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav ul { display: flex; list-style: none; gap: 0.4rem; }
 
         nav a {
             color: var(--text-on-dark-muted);
@@ -162,12 +162,26 @@
             font-size: 0.8rem;
             letter-spacing: 0.06em;
             text-transform: uppercase;
-            transition: color 0.2s;
+            transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
             position: relative;
-            padding-bottom: 2px;
+            display: inline-block;
+            padding: 0.45rem 0.9rem;
+            border-radius: 20px;
+            border: 1px solid transparent;
         }
 
-        nav a:hover { color: var(--orange); }
+        nav a:hover {
+            color: var(--orange);
+            background-color: rgba(225, 96, 42, 0.12);
+            border-color: rgba(225, 96, 42, 0.35);
+        }
+
+        nav a:active,
+        nav a.active {
+            color: var(--cyan);
+            background-color: rgba(127, 196, 222, 0.14);
+            border-color: rgba(127, 196, 222, 0.4);
+        }
 
         /* ===== Hero ===== */
         .hero {
@@ -519,6 +533,52 @@
             color: var(--text-muted);
         }
 
+        /* ===== Downloads ===== */
+        .download-card {
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+            background: var(--paper-card);
+            border: 1px solid rgba(15,38,53,0.08);
+            border-left: 4px solid var(--orange);
+            border-radius: var(--radius);
+            padding: 1.75rem 2rem;
+            flex-wrap: wrap;
+        }
+
+        .download-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            background: var(--blueprint);
+            color: var(--cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .download-info { flex: 1; min-width: 220px; }
+
+        .download-info h3 {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .download-info p { font-size: 0.92rem; color: var(--text-muted); }
+
+        .download-meta {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 0.4rem;
+            display: inline-block;
+        }
+
         /* ===== Newsletter ===== */
         .newsletter {
             background: linear-gradient(135deg, var(--orange), var(--orange-dark));
@@ -711,6 +771,7 @@
                     <li><a href="#home">హోమ్</a></li>
                     <li><a href="#about">గురించి</a></li>
                     <li><a href="#playlists">ప్లేలిస్టులు</a></li>
+                    <li><a href="#downloads">డౌన్‌లోడ్</a></li>
                     <li><a href="#contact">సంప్రదించండి</a></li>
                 </ul>
             </nav>
@@ -977,6 +1038,26 @@
             </div>
         </section>
 
+        <!-- Free Downloads -->
+        <section id="downloads" class="pad dark">
+            <div class="section-inner">
+                <div class="eyebrow">FREE RESOURCE <span class="te">· డౌన్‌లోడ్</span></div>
+                <h2>Download Files</h2>
+                <p style="margin-top: 0.5rem; max-width: 560px;">Grab the resource pack to follow along with the tutorials on your own machine.</p>
+                <div class="download-card" style="margin-top: 2.25rem;">
+                    <div class="download-icon" aria-hidden="true"><i class="fas fa-file-zipper"></i></div>
+                    <div class="download-info">
+                        <h3>Polygon Sequential Numbering_V1_6_0</h3>
+                        <p>Sample datasets and reference files used in our tutorial videos.</p>
+                        <span class="download-meta"><i class="fas fa-file-archive" aria-hidden="true"></i> ZIP FILE</span>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=1HSTBz4oIgYa7jF4Z2U3UQl3jGuoxpREg" class="cta-button" target="_blank" rel="noopener">
+                        <i class="fas fa-download" aria-hidden="true"></i> Download ZIP
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Newsletter + Visitor Counter -->
         <section class="pad light">
             <div class="section-inner" style="display: grid; gap: 2rem;">
@@ -1041,6 +1122,7 @@
         document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
         // Simple smooth scroll for navigation links
+        const navLinks = document.querySelectorAll('nav a');
         document.querySelectorAll('nav a, .cta-button[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 if (this.getAttribute('href').startsWith('#')) {
@@ -1049,9 +1131,37 @@
                     document.querySelector(targetId).scrollIntoView({
                         behavior: 'smooth'
                     });
+                    if (this.tagName === 'A' && this.closest('nav')) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        this.classList.add('active');
+                    }
                 }
             });
         });
+
+        // Highlight the nav link for whichever section is in view
+        const navSections = Array.from(navLinks)
+            .map(link => document.querySelector(link.getAttribute('href')))
+            .filter(Boolean);
+
+        if (navSections.length && !prefersReducedMotionForNav()) {
+            const navObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = '#' + entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+            navSections.forEach(section => navObserver.observe(section));
+        }
+
+        function prefersReducedMotionForNav() {
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
 
         // Newsletter form submission
         document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
