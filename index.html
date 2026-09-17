@@ -534,6 +534,13 @@
         }
 
         /* ===== Downloads ===== */
+        .downloads-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-top: 2.25rem;
+        }
+
         .download-card {
             display: flex;
             align-items: center;
@@ -1044,16 +1051,30 @@
                 <div class="eyebrow">FREE RESOURCE <span class="te">· డౌన్‌లోడ్</span></div>
                 <h2>Download Files</h2>
                 <p style="margin-top: 0.5rem; max-width: 560px;">Grab the resource pack to follow along with the tutorials on your own machine.</p>
-                <div class="download-card" style="margin-top: 2.25rem;">
-                    <div class="download-icon" aria-hidden="true"><i class="fas fa-file-zipper"></i></div>
-                    <div class="download-info">
-                        <h3>Polygon Sequential Numbering_V1_6_0</h3>
-                        <p>Sample datasets and reference files used in our tutorial videos.</p>
-                        <span class="download-meta"><i class="fas fa-file-archive" aria-hidden="true"></i> ZIP FILE</span>
+                <div class="downloads-list">
+                    <div class="download-card">
+                        <div class="download-icon" aria-hidden="true"><i class="fas fa-file-zipper"></i></div>
+                        <div class="download-info">
+                            <h3>Polygon Sequential Numbering_V1_6_0</h3>
+                            <p>Automatically number polygon features in QGIS with flexible numbering options. Set starting numbers, increments, prefixes, suffixes, leading zeros, and numbering order. Supports manual, selected-feature, and spatial numbering with easy undo and highlighting.</p>
+                            <span class="download-meta"><i class="fas fa-file-archive" aria-hidden="true"></i> ZIP FILE</span>
+                        </div>
+                        <a href="https://drive.google.com/uc?export=download&id=1HSTBz4oIgYa7jF4Z2U3UQl3jGuoxpREg" class="cta-button" target="_blank" rel="noopener">
+                            <i class="fas fa-download" aria-hidden="true"></i> Download ZIP
+                        </a>
                     </div>
-                    <a href="https://drive.google.com/uc?export=download&id=1HSTBz4oIgYa7jF4Z2U3UQl3jGuoxpREg" class="cta-button" target="_blank" rel="noopener">
-                        <i class="fas fa-download" aria-hidden="true"></i> Download ZIP
-                    </a>
+
+                    <div class="download-card">
+                        <div class="download-icon" aria-hidden="true"><i class="fas fa-file-zipper"></i></div>
+                        <div class="download-info">
+                            <h3>GIS Data Inspector</h3>
+                            <p>A powerful QGIS plugin for GIS data statistics and QA/QC inspection. Analyze polygon, line, and point layers for geometry, attributes, duplicates, missing values, invalid geometries, suspicious data, and overall data quality.</p>
+                            <span class="download-meta"><i class="fas fa-file-archive" aria-hidden="true"></i> ZIP FILE</span>
+                        </div>
+                        <a href="https://drive.google.com/uc?export=download&id=1xkFnM1frdrJA7bdFr2kcFWpJSSjhB3vu" class="cta-button" target="_blank" rel="noopener">
+                            <i class="fas fa-download" aria-hidden="true"></i> Download ZIP
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
